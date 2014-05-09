@@ -1,0 +1,62 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+    <title>Phaser - Making your first game, part 9</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+    <script src="Level.js" type="text/javascript"></script>
+    <script src="Character.js" type="text/javascript"></script>
+    <script src="Bird.js" type="text/javascript"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+
+
+var game = new Phaser.Game(360, 500, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+var character = null;
+var level = null
+var bird = null;
+var birds = null;
+var birdNum = 0;
+
+function preload() {
+    level = new Level(game);
+    level.preload();
+    character = new Character(game);
+    character.preload();
+    bird = new Bird(game);
+    bird.preload();
+
+    //game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
+}
+
+
+function create() {
+    level.create();
+    bird.create();
+    character.create();
+    birds = game.add.group()
+        game.input.keyboard.addKey(Phaser.Keyboard.A).onDown.add(function(){
+            birds[birdNum] = new Bird(game);
+            preload += birds[birdNum].preload();
+            create += birds[birdNum].create();
+            update += birds[birdNum].update();
+            birdNum ++;
+        }, this);
+}
+
+function update() {
+    character.update();
+    bird.update();
+}
+</script>
+
+</body>
+</html>
