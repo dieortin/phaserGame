@@ -5,7 +5,7 @@ Bird = function(game) {
 
 Bird.prototype = {
 	preload: function () {
-    	this.game.load.spritesheet('bird', 'assets/current/spritesheets/bird.png', 240, 314);
+    	this.game.load.spritesheet('bird', 'assets/bird.png', 240, 314);
 	},
 	create: function () {
 		this.sprite = this.game.add.sprite(180, this.game.world.height / 2, 'bird'); //Add background bird sprite & animations

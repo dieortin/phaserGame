@@ -6,7 +6,7 @@ Character = function(game) {
 
 Character.prototype = {
 	preload: function () {
-    	this.game.load.spritesheet('character', 'assets/current/spritesheets/dude.png', 27, 42);
+    	this.game.load.spritesheet('character', 'assets/dude.png', 27, 42);
 	},
 	create: function () {
 		this.sprite = this.game.add.sprite(100, this.game.world.height - 150, 'character'); //Add character sprite
