@@ -17,10 +17,8 @@ Keys.prototype = {
 	        this.birdNum ++;
 	    }, this);
 	    this.game.input.onDown.add(function() {
-	    	console.log("1");
         	character.shoot();
         	if (this.game.input.activePointer.msSinceLastClick < 200) {
-				console.log("1");
         		this.game.stage.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         		this.game.scale.refresh();
         		game.scale.setShowAll();

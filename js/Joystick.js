@@ -7,7 +7,7 @@ var Joystick = function(game, xpos, ypos) {
 		y: ypos
 	};
 	this.scaleFactor = 0.75; // Factor to scale down the joystick sprites
-	this.joystickRadius = (115 * this.scaleFactor / 2) / 1.4 // Calculates the radius - half of the scaled diameter (halved again to make it smaller)
+	this.joystickRadius = (115 * this.scaleFactor / 2) / 2 // Calculates the radius - half of the scaled diameter (halved again to make it smaller)
 	this.joystickPointer = null; // Pointer being used to move the top joystick element
 	this.basePos = null; // Position for the joystick base image
 	this.topPos = null; // Position for the joystick top image
@@ -32,7 +32,7 @@ Joystick.prototype = {
 	},
 	update: function() {
 		if (this.joystickPointer !== null && this.joystickPointer.isDown) { // If pointer used to move the joystick exists and is down
-			if (Math.pow(this.joystickPointer.x - this.joystickPos.x, 2) + Math.pow(this.joystickPointer.y - this.joystickPos.y, 2) > this.joystickRadius) { // If the distance from the center of the joystick to the pointer is grater to the radius (Pythagoras theorem)
+			if (Math.sqrt(Math.pow(this.joystickPointer.x - this.joystickPos.x, 2) + Math.pow(this.joystickPointer.y - this.joystickPos.y, 2)) > this.joystickRadius) { // If the distance from the center of the joystick to the pointer is grater to the radius (Pythagoras theorem)
 				var oppositeSide = this.joystickPointer.y - this.joystickPos.y; // The side opposite to the angle (as 'y' increases as it goes down the operation is reversed)
 				var nextSide = this.joystickPointer.x - this.joystickPos.x; // The side that's next to the angle (and isn't the hypotenuse)
 				var angle = Math.atan(oppositeSide / nextSide); // Get the angle from the center of the base to the pointer
