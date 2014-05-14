@@ -12,10 +12,10 @@ Level = function(game) {
 Level.prototype = {
 
 	preload: function() {
-		this.game.load.image('sky', 'assets/sky.png');
-		this.game.load.image('ground', 'assets/scroller/grassV2_0.png');
-		this.game.load.image('spikes', 'assets/scroller/trapsnspikes.png');
-		this.game.load.image('house', 'assets/scroller/HouseHayRoof.png')
+		this.game.load.image('sky', 'assets/current/background/sky.png');
+		this.game.load.image('ground', 'assets/current/background/grassV2_0.png');
+		this.game.load.image('spikes', 'assets/current/background/trapsnspikes.png');
+		this.game.load.image('house', 'assets/current/background/HouseHayRoof.png')
 	},
 
 	create: function() {
