@@ -29,7 +29,7 @@ if (window.innerWidth < 800) {
 if (window.innerHeight < 500) {
     dimensions.height = window.innerHeight;
 } else {
-    dimensions.height = 800;
+    dimensions.height = 500;
 }
 var game = new Phaser.Game(dimensions.width, dimensions.height,  Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
