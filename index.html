@@ -30,7 +30,7 @@ var joystick = null;
 
 function preload() {
     level = new Level(game);
-    character = new Character(game);
+    character = new Character(game, 100, this.game.world.height - 150, 150, 400);
     bird = new Bird(game);
     keys = new Keys(game);
     joystick = new Joystick(game, 60, 500 - 60);

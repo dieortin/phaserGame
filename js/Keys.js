@@ -17,7 +17,7 @@ Keys.prototype = {
 	        this.birdNum ++;
 	    }, this);
 	    this.game.input.onDown.add(function() {
-        	character.shoot();
+        	//character.shoot();
         	if (this.game.input.activePointer.msSinceLastClick < 200) {
         		this.game.stage.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         		this.game.scale.refresh();

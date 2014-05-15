@@ -6,7 +6,7 @@ var Joystick = function(game, xpos, ypos) {
 		x: xpos,
 		y: ypos
 	};
-	this.scaleFactor = 0.75; // Factor to scale down the joystick sprites
+	this.scaleFactor = 1.25; // Factor to scale down the joystick sprites
 	this.joystickRadius = (115 * this.scaleFactor / 2) / 2 // Calculates the radius - half of the scaled diameter (halved again to make it smaller)
 	this.joystickPointer = null; // Pointer being used to move the top joystick element
 	this.basePos = null; // Position for the joystick base image
