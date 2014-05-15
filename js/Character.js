@@ -10,8 +10,7 @@ Character = function(game, xpos, ypos, xvel, yvel) {
 		velocity: {
 			xvel: xvel,
 			yvel: yvel
-		},
-		dead: false
+		}
 	}
 };
 
@@ -30,9 +29,6 @@ Character.prototype = {
 		this.cursors = this.game.input.keyboard.createCursorKeys(); //Get cursor keys for control
 	},
 	update: function() {
-		if (this.properties.dead) {
-			return
-		}
 		this.game.physics.arcade.collide(this.sprite, level.spikes, this.die, null, this);
 		this.game.physics.arcade.collide(this.sprite, level.floor);
 		this.sprite.body.velocity.x = 0;
@@ -61,7 +57,10 @@ Character.prototype = {
 		}
 	},
 	die: function(char, spikes) {
-		this.properties.dead = true;
-		char.body.collideWorldBounds = false;
+		this.game.state.start('dead');
+		this.sprite.body.collideWorldBounds = false;
+	},
+	deadUpdate: function() { // Function to substitute update when the game state is 'dead'
+		this.sprite.y -= 10;
 	}
 };

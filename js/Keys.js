@@ -18,7 +18,7 @@ Keys.prototype = {
 	    }, this);
 	    this.game.input.onDown.add(function() {
         	//character.shoot();
-        	if (this.game.input.activePointer.msSinceLastClick < 200) {
+        	if (this.game.input.activePointer.msSinceLastClick < 200 && this.game.input.activePointer.msSinceLastClick > 35) {
         		this.game.stage.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         		this.game.scale.refresh();
         		game.scale.setShowAll();
