@@ -6,7 +6,7 @@ var Joystick = function(game, xpos, ypos) {
 		x: xpos,
 		y: ypos
 	};
-	this.scaleFactor = 1.25; // Factor to scale down the joystick sprites
+	this.scaleFactor = 1; // Factor to scale down the joystick sprites
 	this.joystickRadius = (115 * this.scaleFactor / 2) / 2 // Calculates the radius - half of the scaled diameter (halved again to make it smaller)
 	this.joystickPointer = null; // Pointer being used to move the top joystick element
 	this.basePos = null; // Position for the joystick base image
@@ -15,8 +15,8 @@ var Joystick = function(game, xpos, ypos) {
 
 Joystick.prototype = {
 	preload: function() {
-		this.game.load.image('joystick_base', '/assets/current/joystick/joystick_base.png');
-		this.game.load.image('joystick_top', '/assets/current/joystick/joystick_top.png');
+		this.game.load.image('joystick_base', '/assets/current/joystick/joystick_base_transparent.png');
+		this.game.load.image('joystick_top', '/assets/current/joystick/joystick_top_transparent.png');
 	},
 	create: function() {
 		basePos = this.getPos(115, 115, this.joystickPos.x, this.joystickPos.y); // Calculate coordinates for base sprite and store them
@@ -53,6 +53,9 @@ Joystick.prototype = {
 				this.top.cameraOffset.y = topPos.y;
 			}
 		} else {
+			if (this.joystickPointer !== null) { // When pointer is not down, reset the joystick pointer
+				this.joystickPointer = null;
+			}
 			topPos = this.getPos(75, 75, this.joystickPos.x, this.joystickPos.y); // Get coordinates to move the top of the joystick to its original position
 			this.top.cameraOffset.x = topPos.x; // Set the obtained coordinates as absolute position
 			this.top.cameraOffset.y = topPos.y;
