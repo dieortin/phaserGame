@@ -33,7 +33,7 @@ Joystick.prototype = {
 	update: function() {
 		if (this.joystickPointer !== null && this.joystickPointer.isDown) { // If pointer used to move the joystick exists and is down
 			if (Math.sqrt(Math.pow(this.joystickPointer.x - this.joystickPos.x, 2) + Math.pow(this.joystickPointer.y - this.joystickPos.y, 2)) > this.joystickRadius) { // If the distance from the center of the joystick to the pointer is grater to the radius (Pythagoras theorem)
-				var oppositeSide = this.joystickPointer.y - this.joystickPos.y; // The side opposite to the angle (as 'y' increases as it goes down the operation is reversed)
+				var oppositeSide = this.joystickPos.y - this.joystickPointer.y; // The side opposite to the angle (as 'y' increases as it goes down the operation is reversed)
 				var nextSide = this.joystickPointer.x - this.joystickPos.x; // The side that's next to the angle (and isn't the hypotenuse)
 				var angle = Math.atan(oppositeSide / nextSide); // Get the angle from the center of the base to the pointer
 				if ((nextSide < 0 && oppositeSide > 0) || (nextSide < 0 && oppositeSide < 0)) { // 2nd quadrant or 3rd quadrant
@@ -41,16 +41,38 @@ Joystick.prototype = {
 				} else if (nextSide > 0 && oppositeSide < 0) { // 4th quadrant
 					angle += Math.PI * 2; // Add 360 degrees to get the real angle
 				}
-
 				/* Get position knowing that the x is the cosine of the angle multiplied by the radius 
-				and the y the sine multiplied by the radius, adding the original joystick position to both*/
-				topPos = this.getPos(75, 75, Math.cos(angle) * this.joystickRadius + this.joystickPos.x, Math.sin(angle) * this.joystickRadius + this.joystickPos.y); 
+				and the y the sine multiplied by the radius, adding the original joystick position to both
+				(the y is multiplied by -1 because the y axis is inverted in the game)*/
+				topPos = this.getPos(75, 75, Math.cos(angle) * this.joystickRadius + this.joystickPos.x, (Math.sin(angle) * this.joystickRadius) * -1 + this.joystickPos.y);
+				console.log(topPos);
 				this.top.cameraOffset.x = topPos.x; // Set the obtained coordinates as absolute position
 				this.top.cameraOffset.y = topPos.y;
+				var diffX = Math.cos(angle) * this.joystickRadius;
+				if (character) {
+					if (character.sprite.body.touching.down && (angle > Math.PI / 4 && angle < Math.PI * 3 / 4)) { // If the character is touching the ground and the angle is bigger than 45 deg and smaller than 135
+						character.jumpOnNext = true;
+					} else {
+						character.jumpOnNext = false;
+					}
+				} else {
+					console.log("ERROR: unable to use character. Variable not declared?");
+				}
 			} else {
 				topPos = this.getPos(75, 75, this.joystickPointer.x, this.joystickPointer.y); // Get the coordinates to move the joystick top center to the pointer position
+				var diffX = this.joystickPointer.x - this.joystickPos.x;
+				if (character) {
+					character.jumpOnNext = false;
+				} else {
+					console.log("ERROR: unable to use character. Variable not declared?");
+				}
 				this.top.cameraOffset.x = topPos.x; // Set the obtained coordinates as absolute position
 				this.top.cameraOffset.y = topPos.y;
+			}
+			if (character) {
+				character.properties.joystickSpeedFactor = diffX / this.joystickRadius; // Makes joystick speed factor the x difference (in percentage) between top and base so that the character moves as the joystick
+			} else {
+				console.log("ERROR: unable to use character. Variable not declared?");
 			}
 		} else {
 			if (this.joystickPointer !== null) { // When pointer is not down, reset the joystick pointer
@@ -59,10 +81,16 @@ Joystick.prototype = {
 			topPos = this.getPos(75, 75, this.joystickPos.x, this.joystickPos.y); // Get coordinates to move the top of the joystick to its original position
 			this.top.cameraOffset.x = topPos.x; // Set the obtained coordinates as absolute position
 			this.top.cameraOffset.y = topPos.y;
+			character.properties.joystickSpeedFactor = 0; // Reset the joystick speed factor so that the character stops
 		}
 	},
-	joystickPressed: function (sprite, pointer) { // Sets the pointer that touched the joystick top as the pointer that will control it
-		this.joystickPointer = pointer;
+	joystickPressed: function (sprite, pointer) { 
+		this.joystickPointer = pointer; // Sets the pointer that touched the joystick top as the pointer that will control it
+		if (character) {
+			character.usingJoystick = true; // Makes the character use the joystick as input
+		} else {
+				console.log("ERROR: unable to use character. Variable not declared?");
+		}
 	},
 	getPos: function (width, height, x, y) { // Gets x and y position for the sprites based on the position their center must have and their width
 		var resultX = x - (width * this.scaleFactor / 2);
