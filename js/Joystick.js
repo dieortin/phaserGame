@@ -50,7 +50,7 @@ Joystick.prototype = {
 				this.top.cameraOffset.y = topPos.y;
 				var diffX = Math.cos(angle) * this.joystickRadius;
 				if (character) {
-					if (angle > (Math.PI / 4) && angle < (Math.PI * 3 / 4)) { // If the angle is bigger than 45 deg and smaller than 135
+					if (angle > (Math.PI / 8) && angle < (Math.PI * 7 / 8)) { // If the angle is bigger than 45 deg and smaller than 135
 						character.jumpOnNext = true;
 					} else {
 						character.jumpOnNext = false;
@@ -81,7 +81,12 @@ Joystick.prototype = {
 			topPos = this.getPos(75, 75, this.joystickPos.x, this.joystickPos.y); // Get coordinates to move the top of the joystick to its original position
 			this.top.cameraOffset.x = topPos.x; // Set the obtained coordinates as absolute position
 			this.top.cameraOffset.y = topPos.y;
-			character.properties.joystickSpeedFactor = 0; // Reset the joystick speed factor so that the character stops
+			if (character) {
+				character.properties.joystickSpeedFactor = 0; // Reset the joystick speed factor so that the character stops
+				character.jumpOnNext = false; // Reset the joystick jump
+			} else {
+				console.log("ERROR: unable to use character. Variable not declared?");
+			}
 		}
 	},
 	joystickPressed: function (sprite, pointer) { 
