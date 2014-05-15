@@ -19,7 +19,7 @@ Level.prototype = {
 	},
 
 	create: function() {
-		this.game.world.setBounds(0, 0, 3000, 500); //Define the world size
+		this.game.world.setBounds(0, 0, 3000, dimensions.height); //Define the world size
 	    this.game.physics.startSystem(Phaser.Physics.ARCADE); //Start arcade physics
 	    this.sky = this.game.add.sprite(0, 0, 'sky').scale.setTo(this.game.world.width / 800, 1); //Horizontally scale the sky to fill all the world
 	    this.house = this.game.add.sprite(15, this.game.world.height - ((394 * this.houseScaleFactor) + 50 - 15), 'house');
@@ -40,7 +40,7 @@ Level.prototype = {
 	    }
 	},
 
-	update: function() {
+	deadCreate: function() { // To create the level when the character is dead
 	}
 
 };

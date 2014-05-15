@@ -42,10 +42,10 @@ var deadState = null;
 
 function preload() {
     level = new Level(game);
-    character = new Character(game, 100, this.game.world.height - 150, 150, 400);
+    character = new Character(game, 100, this.game.world.height - 100, 150, 400);
     bird = new Bird(game);
     keys = new Keys(game);
-    joystick = new Joystick(game, 60, 500 - 60);
+    joystick = new Joystick(game, 60, dimensions.height - 60);
     deadState = new Dead(game);
     level.preload();
     character.preload();
