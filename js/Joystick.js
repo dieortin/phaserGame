@@ -50,7 +50,7 @@ Joystick.prototype = {
 				this.top.cameraOffset.y = topPos.y;
 				var diffX = Math.cos(angle) * this.joystickRadius;
 				if (character) {
-					if (character.sprite.body.touching.down && (angle > Math.PI / 4 && angle < Math.PI * 3 / 4)) { // If the character is touching the ground and the angle is bigger than 45 deg and smaller than 135
+					if (angle > (Math.PI / 4) && angle < (Math.PI * 3 / 4)) { // If the angle is bigger than 45 deg and smaller than 135
 						character.jumpOnNext = true;
 					} else {
 						character.jumpOnNext = false;

@@ -54,6 +54,12 @@ Character.prototype = {
 		}
 	},
 	jump: function() { // Jump
+		if (this.usingJoystick) { // Add aditional check for touching down if using joystick, as it's not checked
+			if (this.sprite.body.touching.down) {
+				this.sprite.body.velocity.y = -this.properties.velocity.yvel;
+			}
+			return
+		}
 		this.sprite.body.velocity.y = -this.properties.velocity.yvel;
 	},
 	run: function(factor) { // Run to the left or to the right, and with a speed depending on the factor passed
