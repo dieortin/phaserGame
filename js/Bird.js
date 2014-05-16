@@ -8,7 +8,7 @@ Bird.prototype = {
     	this.game.load.spritesheet('bird', 'assets/current/spritesheets/bird.png', 240, 314);
 	},
 	create: function () {
-		this.sprite = this.game.add.sprite(character.sprite.x, this.game.world.height / 2, 'bird'); //Add background bird sprite & animations
+		this.sprite = this.game.add.sprite(level.character.sprite.x, this.game.world.height / 2, 'bird'); //Add background bird sprite & animations
 		this.sprite.scale.setTo(0.2, 0.2);
 		this.sprite.animations.add('fly', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21], 50, true);
 		this.game.physics.arcade.enable(this.sprite);

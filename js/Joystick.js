@@ -1,5 +1,6 @@
-var Joystick = function(game, xpos, ypos) {
+var Joystick = function(game, xpos, ypos, character) {
 	this.game = game;
+	this.character = character; // Sprite to control
 	this.base = null; // Base of the joystick
 	this.top = null; // Movable part of the joystick
 	this.joystickPos = { // Position for the center of the joystick sprites
@@ -45,15 +46,14 @@ Joystick.prototype = {
 				and the y the sine multiplied by the radius, adding the original joystick position to both
 				(the y is multiplied by -1 because the y axis is inverted in the game)*/
 				topPos = this.getPos(75, 75, Math.cos(angle) * this.joystickRadius + this.joystickPos.x, (Math.sin(angle) * this.joystickRadius) * -1 + this.joystickPos.y);
-				console.log(topPos);
 				this.top.cameraOffset.x = topPos.x; // Set the obtained coordinates as absolute position
 				this.top.cameraOffset.y = topPos.y;
 				var diffX = Math.cos(angle) * this.joystickRadius;
-				if (character) {
+				if (this.character) {
 					if (angle > (Math.PI / 8) && angle < (Math.PI * 7 / 8)) { // If the angle is bigger than 45 deg and smaller than 135
-						character.jumpOnNext = true;
+						this.character.jumpOnNext = true;
 					} else {
-						character.jumpOnNext = false;
+						this.character.jumpOnNext = false;
 					}
 				} else {
 					console.log("ERROR: unable to use character. Variable not declared?");
@@ -61,16 +61,16 @@ Joystick.prototype = {
 			} else {
 				topPos = this.getPos(75, 75, this.joystickPointer.x, this.joystickPointer.y); // Get the coordinates to move the joystick top center to the pointer position
 				var diffX = this.joystickPointer.x - this.joystickPos.x;
-				if (character) {
-					character.jumpOnNext = false;
+				if (this.character) {
+					this.character.jumpOnNext = false;
 				} else {
 					console.log("ERROR: unable to use character. Variable not declared?");
 				}
 				this.top.cameraOffset.x = topPos.x; // Set the obtained coordinates as absolute position
 				this.top.cameraOffset.y = topPos.y;
 			}
-			if (character) {
-				character.properties.joystickSpeedFactor = diffX / this.joystickRadius; // Makes joystick speed factor the x difference (in percentage) between top and base so that the character moves as the joystick
+			if (this.character) {
+				this.character.properties.joystickSpeedFactor = diffX / this.joystickRadius; // Makes joystick speed factor the x difference (in percentage) between top and base so that the character moves as the joystick
 			} else {
 				console.log("ERROR: unable to use character. Variable not declared?");
 			}
@@ -81,9 +81,9 @@ Joystick.prototype = {
 			topPos = this.getPos(75, 75, this.joystickPos.x, this.joystickPos.y); // Get coordinates to move the top of the joystick to its original position
 			this.top.cameraOffset.x = topPos.x; // Set the obtained coordinates as absolute position
 			this.top.cameraOffset.y = topPos.y;
-			if (character) {
-				character.properties.joystickSpeedFactor = 0; // Reset the joystick speed factor so that the character stops
-				character.jumpOnNext = false; // Reset the joystick jump
+			if (this.character) {
+				this.character.properties.joystickSpeedFactor = 0; // Reset the joystick speed factor so that the character stops
+				this.character.jumpOnNext = false; // Reset the joystick jump
 			} else {
 				console.log("ERROR: unable to use character. Variable not declared?");
 			}
@@ -91,8 +91,8 @@ Joystick.prototype = {
 	},
 	joystickPressed: function (sprite, pointer) { 
 		this.joystickPointer = pointer; // Sets the pointer that touched the joystick top as the pointer that will control it
-		if (character) {
-			character.usingJoystick = true; // Makes the character use the joystick as input
+		if (this.character) {
+			this.character.usingJoystick = true; // Makes the character use the joystick as input
 		} else {
 				console.log("ERROR: unable to use character. Variable not declared?");
 		}

@@ -2,6 +2,7 @@
 <html lang="en"> 
 <head> 
 	<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Phaser - Making your first game, part 9</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
     <style type="text/css">
@@ -15,6 +16,7 @@
     <script src="./js/Keys.js" type="text/javascript"></script>
     <script src="./js/Joystick.js" type="text/javascript"></script>
     <script src="./js/Dead.js" type="text/javascript"></script>
+    <script src="./js/Level1.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -31,52 +33,26 @@ if (window.innerHeight < 500) {
 } else {
     dimensions.height = 500;
 }
-var game = new Phaser.Game(dimensions.width, dimensions.height,  Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(dimensions.width, dimensions.height,  Phaser.AUTO);
+
+
 
 var character = null;
-var level = null
+var level = null;
 var bird = null;
 var keys = null;
 var joystick = null;
-var deadState = null;
 
-function preload() {
-    level = new Level(game);
-    character = new Character(game, 100, this.game.world.height - 100, 150, 500);
-    bird = new Bird(game);
-    keys = new Keys(game);
-    joystick = new Joystick(game, 60, dimensions.height - 60);
-    deadState = new Dead(game);
-    level.preload();
-    character.preload();
-    bird.preload();
-    joystick.preload();
-    //game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
-}
+level = new Level1(game);
+
+game.state.add("level1", level);
+game.state.add("dead" , new Dead(game));
 
 
-function create() {
-    game.state.add("dead" , deadState);
-    keys.create();
-    level.create();
-    character.create();
-    bird.create();
-    joystick.create();
-    //game.input.onDown.add(goFull, this);
+game.state.start("level1");
 
-}
-
-function update() {
-    joystick.update();
-    character.update();
-    bird.update();
-}
-
-function goFull () {
-    game.scale.fullScreenScaleMode = Phaser.ScaleManager.NO_SCALE;
-    game.scale.refresh();
-    game.scale.startFullScreen();
-}
+this.game.scale.refresh();
+this.game.scale.setShowAll();
 </script>
 
 </body>
