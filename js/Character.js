@@ -32,8 +32,8 @@ Character.prototype = {
 		this.cursors = this.game.input.keyboard.createCursorKeys(); //Get cursor keys for control
 	},
 	update: function() {
-		this.game.physics.arcade.collide(this.sprite, level.spikes, this.die, null, this);
-		this.game.physics.arcade.collide(this.sprite, level.floor);
+		this.game.physics.arcade.collide(this.sprite, level.level.spikes, this.die, null, this);
+		this.game.physics.arcade.collide(this.sprite, level.level.floor);
 		this.sprite.body.velocity.x = 0;
 		if (this.usingJoystick) {
 			this.run(this.properties.joystickSpeedFactor);
