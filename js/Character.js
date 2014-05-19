@@ -32,7 +32,7 @@ Character.prototype = {
 		this.cursors = this.game.input.keyboard.createCursorKeys(); //Get cursor keys for control
 	},
 	update: function() {
-		this.game.physics.arcade.collide(this.sprite, level.level.spikes, this.die, null, this);
+		this.game.physics.arcade.collide(this.sprite, level.spikes, this.die, null, this);
 		this.game.physics.arcade.collide(this.sprite, level.level.floor);
 		this.sprite.body.velocity.x = 0;
 		if (this.usingJoystick) {
@@ -76,7 +76,14 @@ Character.prototype = {
 		}
 	},
 	die: function(char, spikes) {
-		this.game.state.start('dead');
-		this.sprite.body.collideWorldBounds = false;
+		this.game.state.start('dead', false); // Start dead state
+		level.joystick.top.kill();
+		level.joystick.base.kill();
+		level.keys = null;
+		this.update = {};
+		this.sprite.body.collideWorldBounds = false; // Make the character fall off from the screen
+		this.sprite.body.velocity.x = 0; // Make the character stop its x movement
+		this.sprite.frame = 4; // Change the character frame to the stopped one (dead frame must be done)
+		this.sprite.body.velocity.y = 500; // Make the character jump to show death
 	}
 };
